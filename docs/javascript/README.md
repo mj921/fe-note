@@ -12,20 +12,15 @@
   2. 递归实现
   ``` javascript
   const deepCopy = obj => {
-    const oldArr = [];
-    const newArr = [];
+    const map = new WeakMap();
     const _copy = o => {
       if (!o || typeof o !== 'object') return o;
+      const hasObj = map.get(o);
+      if (hasObj) return hasObj;
       const newObj = {};
+      map.set(o, newObj);
       for (let key in o) {
-        let index = oldArr.indexOf(o[key])
-        if (index > -1) {
-          newObj[key] = newArr[index];
-        } else {
-          oldArr.push(o[key]);
-          newObj[key] = _copy(o[key]);
-          newArr.push(newObj[key]);
-        }
+        newObj[key] = _copy(o[key]);
       }
     }
     return _copy(obj);
