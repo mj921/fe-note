@@ -1,34 +1,13 @@
 module.exports = {
   title: 'fe-note',
   description: 'fe-note',
+  base: '/fe-note/',
   markdown: {
     toc: {
       includeLevel: [1, 2, 3]
     }
   },
   themeConfig: {
-    // sidebar: [
-    //   {
-    //     title: 'guide',   // 必要的
-    //     path: '/guide/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-    //     collapsable: false, // 可选的, 默认值是 true,
-    //     sidebarDepth: 1,    // 可选的, 默认值是 1
-    //   },
-    //   {
-    //     title: 'HTML',   // 必要的
-    //     path: '/HTML/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-    //     collapsable: false, // 可选的, 默认值是 true,
-    //     sidebarDepth: 1,    // 可选的, 默认值是 1
-    //     children: [
-    //       '',
-    //       'one'
-    //     ]
-    //   }
-    // ]
-    // sidebar: [
-    //   '/guide/',
-    //   '/HTML/'
-    // ]
     nav: [
       { text: 'HTML', link: '/HTML/' },
       { text: '框架', items: [
@@ -73,6 +52,10 @@ module.exports = {
             {
               title: 'javascript',
               path: '/javascript/'
+            },
+            {
+              title: '原型和原型链',
+              path: '原型和原型链'
             },
           ]
         },
