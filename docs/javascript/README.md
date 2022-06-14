@@ -22,6 +22,7 @@
       for (let key in o) {
         newObj[key] = _copy(o[key]);
       }
+      return newObj;
     }
     return _copy(obj);
   }
