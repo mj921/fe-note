@@ -1,3 +1,3 @@
-# fe-note
+# 前端笔记
 
-[http://www.dungeonsanddevelopers.com/](http://www.dungeonsanddevelopers.com/)
+[https://mj921.github.io/fe-note/](https://mj921.github.io/fe-note/)
