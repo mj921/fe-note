@@ -1,6 +1,6 @@
 module.exports = {
-  title: 'fe-note',
-  description: 'fe-note',
+  title: '前端笔记',
+  description: '前端笔记',
   base: '/fe-note/',
   markdown: {
     toc: {
@@ -10,6 +10,7 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: 'HTML', link: '/HTML/' },
+      { text: 'javascript', link: '/javascript/' },
       { text: '框架', items: [
         { text: 'Vue', link: '/框架/Vue/' },
       ] },
@@ -57,6 +58,10 @@ module.exports = {
               title: '原型和原型链',
               path: '原型和原型链'
             },
+            {
+              title: '执行上下文',
+              path: '执行上下文'
+            },
           ]
         },
       ],
@@ -73,6 +78,7 @@ module.exports = {
           ]
         },
       ],
+      '/': ['/']
     }
   },
 }
