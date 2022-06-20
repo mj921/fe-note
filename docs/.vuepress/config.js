@@ -2,11 +2,8 @@ module.exports = {
   title: '前端笔记',
   description: '前端笔记',
   base: '/fe-note/',
-  markdown: {
-    toc: {
-      includeLevel: [1, 2, 3]
-    }
-  },
+  plugins: [
+  ],
   themeConfig: {
     nav: [
       { text: 'HTML', link: '/HTML/' },
