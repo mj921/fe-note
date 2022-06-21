@@ -50,6 +50,14 @@
 
 ## 箭头函数和普通函数有什么区别
 
+1. **外形不同**：箭头函数使用箭头定义。
+2. **匿名函数**：普通函数可以是匿名函数，也可以是具名函数，箭头函数都是匿名函数。
+3. **构造函数**：普通函数可以用做构造函数，使用new创建对象实例，箭头函数不能用作构造函数，它没有 <code>prototype</code> 属性。
+4. **this指向**：普通函数的 <code>this</code> 指向它的调用者，而箭头函数的 <code>this</code> 指向它定义时执行上下文的this，且不会改变。
+5. **arguments**: 普通函数调用后会有一个arguments对象可以取到传递的参数，而箭头函数没有。
+6. **Generator函数**：箭头函数不能用作Generator函数,不能使用yeild关键字。
+
+
 ## new操作符做了什么事情
 1. 首先创建了一个新对象
 2. 设置原型，将对象的原型设置为函数的 <code>prototype</code> 对象
@@ -78,14 +86,116 @@ function newFn(fn, ...args) {
 
 ## 说一下常见的检测数据类型的几种方式?
 
+- <code>typeof</code> : 数组、对象、null返回的都是object，其他正常。
+- instanceof: 只能判断引用类型，不能判断基本数据类型
+- constructor：<code>obj.\_\_proto\_\_.constrocutr</code>，可以判断基本类型中的 number string boolean symbol。
+- Object.prototype.toString.call(): 可以判断所有类型。
+
 ## 说一下slice splice split 的区别?
 
 ## 说一下怎么把类数组转换为数组?
 
 ## 说一下数组如何去重,你有几种方法?
 
+1. Set
+```javascript
+let arr = [1, 1, 2, 2, 2, '1', 'true', 'null', 'undefined', 'a', 'a', true, true, false, false, null, null, undefined, undefined];
+console.log(Array.from(new Set(arr))); // [1, 2, '1', 'true', 'null', 'undefined', 'a', true, false, null, undefined]
+```
+
+2. 循环用map记录是否已经存在
+```javascript
+let arr = [1, 1, 2, 2, 2, '1', 'true', 'null', 'undefined', 'a', 'a', true, true, false, false, null, null, undefined, undefined];
+const unique = arr => {
+  const map = new Map();
+  const list = [];
+  arr.forEach(item => {
+    if (!map.has(item)) {
+      map.set(item, true);
+      list.push(item);
+    }
+  })
+  return list;
+}
+console.log(unique(arr)); // [1, 2, '1', 'true', 'null', 'undefined', 'a', true, false, null, undefined]
+```
+
+3. 循环用indexOf或includee判断是否已经存在
+```javascript
+let arr = [1, 1, 2, 2, 2, '1', 'true', 'null', 'undefined', 'a', 'a', true, true, false, false, null, null, undefined, undefined];
+const unique = arr => {
+  const list = [];
+  arr.forEach(item => {
+    if (list.indexOf(item) === -1) { // 或者 list.includes(item)
+      list.push(item);
+    }
+  })
+  return list;
+}
+console.log(unique(arr)); // [1, 2, '1', 'true', 'null', 'undefined', 'a', true, false, null, undefined]
+```
+
+4. 上面的循环可以换成filter或者reduce
+```javascript
+let arr = [1, 1, 2, 2, 2, '1', 'true', 'null', 'undefined', 'a', 'a', true, true, false, false, null, null, undefined, undefined];
+const unique = arr => {
+  return arr.filter((item, index) => {
+    if (arr.slice(0, index).indexOf(item) === -1) { // 或者 arr.slice(0, index).includes(item)
+      list.push(item);
+    }
+  });
+  // 或者
+  // return arr.reduce((list, item) => {
+  //   if (list.indexOf(item) === -1) { // 或者 list.includes(item)
+  //     list.push(item);
+  //   }
+  // }, []);
+}
+console.log(unique(arr)); // [1, 2, '1', 'true', 'null', 'undefined', 'a', true, false, null, undefined]
+```
+
 ## 说一下怎么取出数组最多的一项？
+```javascript
+const map = new Map();
+const arr = [1, 1, 1, 1, 2, 2, 2, 3, 1, 2, 3, 4, 5, 5, 6];
+let maxItem;
+arr.forEach(item => {
+  map.set(item, (map.get(item) || 0) + 1);
+  if (map.get(item) > (map.get(maxItem) || 0)) {
+    maxItem = item;
+  }
+});
+console.log(maxItem);
+```
 
 ## 说一下JSON.stringify有什么缺点？
+1. Date对象会转成字符串
+2. 正则表达式、Error对象会转成空对象
+3. 函数和undefined会丢失；
+4. NaN、Infinity和-Infinity，会变成null
+5. 只能序列化对象的可枚举的自有属性，例如: 如果obj中的对象是有构造函数生成的，会丢失构造函数prototype上的属性方法。
+```javascript
+console.log(JSON.stringify({
+  date: new Date(1655795895262),
+  reg: /\d/,
+  err: new Error(),
+  fun: function() {},
+  a: undefined,
+  nan: NaN,
+  inf: Infinity,
+  inf1: -Infinity
+})); // {"date":"2022-06-21T07:18:15.262Z","reg":{},"err":{},"nan":null,"inf":null,"inf1":null}
+
+const Foo = function() {
+  this.a = 1;
+}
+Foo.prototype.b = 2;
+console.log(new Foo()); // {"a":1}
+```
 
 ## 说一下for...in 和 for...of的区别?
+
+for...of遍历获取的是对象的键值, for...in获取的是对象的键名;
+for...in会遍历对象的整个原型链, 性能非常差不推荐使用,而for...of只遍历当前对象不会遍历原型链;
+对于数组的遍历,for...in会返回数组中所有可枚举的属性(包括原型链上可枚举的属性),for...of只返回数组的下标对应的属性值;
+总结：for...in循环主要是为了遍历对象而生,不适用遍历数组; for....of循环可以用来遍历数组、类数组对象、字符串、Set、Map以及Generator对象
