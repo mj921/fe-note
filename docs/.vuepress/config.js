@@ -56,6 +56,10 @@ module.exports = {
               path: '原型和原型链'
             },
             {
+              title: '继承',
+              path: '继承'
+            },
+            {
               title: '执行上下文',
               path: '执行上下文'
             },
