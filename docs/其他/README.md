@@ -28,3 +28,9 @@ const rgbaToRgb = ({
   };
 };
 ```
+
+## createTextNode 空格
+
+```javascript
+createTextNode('\u00A0')
+```
